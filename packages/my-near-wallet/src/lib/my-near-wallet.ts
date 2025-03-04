@@ -143,6 +143,7 @@ const MyNearWallet: WalletBehaviourFactory<
         methodNames,
         successUrl,
         failureUrl,
+        keyType: "ed25519",
       });
 
       return getAccounts();

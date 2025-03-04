@@ -141,6 +141,7 @@ const ArepaWallet: WalletBehaviourFactory<
         methodNames,
         successUrl,
         failureUrl,
+        keyType: "ed25519",
       });
 
       return getAccounts();

@@ -196,7 +196,9 @@ export const ExportAccount: React.FC<ExportAccountProps> = ({
       setIsLoading(true);
       const accountsWithDetails = await Promise.all(
         accounts.map(async ({ accountId, privateKey }) => {
-          const keyPair = nearAPI.utils.KeyPair.fromString(privateKey);
+          const keyPair = nearAPI.utils.KeyPair.fromString(
+            privateKey as nearAPI.utils.KeyPairString
+          );
           const { type } = await getAccountType({
             provider,
             accountId,
