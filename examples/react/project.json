@@ -111,6 +111,11 @@
             "glob": "**/*",
             "input": "packages/ethereum-wallets/assets/",
             "output": "assets/"
+          },
+          {
+            "glob": "**/*",
+            "input": "packages/react-hook/",
+            "output": "/"
           }
         ]
       },

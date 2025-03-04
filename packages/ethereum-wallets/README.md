@@ -5,7 +5,7 @@ The package adds support for Ethereum wallets by creating Ethereum-compatible tr
 
 Ethereum wallet support NEP: https://github.com/near/NEPs/issues/518
 
-Any Ethereum wallet can be connected via Web3Modal: the App can chose which wallets to support and a multichain App can switch networks using the same wallet connection.
+Any Ethereum wallet can be connected via Web3Modal (now AppKit): the App can chose which wallets to support and a multichain App can switch networks using the same wallet connection.
 
 SignIn requires switching to NEAR network to ensure that the wallet is compatible, if the user switches to other networks he will be prompted to switch back to NEAR before making a transaction.
 
@@ -23,38 +23,43 @@ NEP-518 rpc relayer uses a FunctionCall access key to execute transactions on be
 
 ```bash
 # Using Yarn
-yarn add near-api-js @web3modal/wagmi wagmi viem @tanstack/react-query @near-wallet-selector/ethereum-wallets
+yarn add near-api-js @reown/appkit @reown/appkit-adapter-wagmi wagmi viem @tanstack/react-query @near-wallet-selector/ethereum-wallets
 
 # Using NPM.
-npm install near-api-js @web3modal/wagmi wagmi viem @tanstack/react-query @near-wallet-selector/ethereum-wallets
+npm install near-api-js @reown/appkit @reown/appkit-adapter-wagmi wagmi viem @tanstack/react-query @near-wallet-selector/ethereum-wallets
 ```
 
 Then use it in your App:
 
-Visit https://docs.walletconnect.com for the latest configuration of Web3Modal.
+Visit https://docs.reown.com for the latest configuration of AppKit.
 
 Tested versions from `/examples`:
 ```json
 "dependencies": {
-  "@web3modal/wagmi": "5.0.6",
+  "@reown/appkit": "1.5.2",
+  "@reown/appkit-adapter-wagmi": "1.5.2",
   "@tanstack/react-query": "5.24.8",
-  "viem": "2.16.2",
-  "wagmi": "2.10.9",
+  "viem": "2.21.26",
+  "wagmi": "2.21.17",
 }
 ```
 
 ```ts
-import type { Config } from "@wagmi/core";
-import type { Chain } from "@wagmi/core/chains";
-import { reconnect, http, createConfig } from "@wagmi/core";
-import { walletConnect, injected } from "@wagmi/connectors";
+import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
+import { createAppKit } from "@reown/appkit/react";
+import { defineChain } from "@reown/appkit/networks";
+import type { CreateConnectorFn, GetAccountReturnType } from "@wagmi/core";
+import { watchAccount } from "@wagmi/core";
+import { injected, walletConnect } from "@wagmi/connectors";
 import { setupWalletSelector } from "@near-wallet-selector/core";
 import { setupModal } from "@near-wallet-selector/modal-ui";
 import { setupEthereumWallets } from "@near-wallet-selector/ethereum-wallets";
 
 // Mainnet
-const near: Chain = {
+const near = defineChain({
   id: 397,
+  caipNetworkId: "eip155:398",
+  chainNamespace: "eip155",
   name: "NEAR Protocol",
   nativeCurrency: {
     decimals: 18,
@@ -71,12 +76,14 @@ const near: Chain = {
       url: "https://eth-explorer.near.org",
     },
   },
-}
+})
 
 // Testnet
 /*
-const near: Chain = {
+const near = defineChain({
   id: 398,
+  caipNetworkId: "eip155:398",
+  chainNamespace: "eip155",
   name: "NEAR Protocol Testnet",
   nativeCurrency: {
     decimals: 18,
@@ -94,35 +101,47 @@ const near: Chain = {
     },
   },
   testnet: true,
-};
+});
 */
 
-// Get a project ID at https://cloud.walletconnect.com
+// Get a project ID at https://cloud.reown.com
 const projectId = ""
 
-const wagmiConfig: Config = createConfig({
-  chains: [near],
-  transports: {
-    [near.id]: http(),
-  },
-  connectors: [
-    walletConnect({
-      projectId,
-      metadata: {
-        name: "NEAR Guest Book",
-        description: "A guest book with comments stored on the NEAR blockchain",
-        url: "https://near.github.io/wallet-selector",
-        icons: ["https://near.github.io/wallet-selector/favicon.ico"],
-      },
-      showQrModal: false
-    }),
-    injected({ shimDisconnect: true }),
-  ],
+const connectors: Array<CreateConnectorFn> = [
+  walletConnect({
+    projectId,
+    metadata: {
+      name: "NEAR Guest Book",
+      description: "A guest book with comments stored on the NEAR blockchain",
+      url: "https://near.github.io/wallet-selector",
+      icons: ["https://near.github.io/wallet-selector/favicon.ico"],
+    },
+    showQrModal: false, // showQrModal must be false
+  }),
+  injected({ shimDisconnect: true }),
+];
+
+const wagmiAdapter = new WagmiAdapter({
+  projectId,
+  connectors,
+  networks: [near],
 });
 
-const web3Modal = createWeb3Modal({
-  wagmiConfig,
+const web3Modal = createAppKit({
+  adapters: [wagmiAdapter],
   projectId,
+  networks: [near],
+  defaultNetwork: near,
+  enableWalletConnect: true,
+  features: {
+    analytics: true,
+    swaps: false,
+    onramp: false,
+    email: false, // Smart accounts (Safe contract) not available on NEAR Protocol, only EOA.
+    socials: false, // Smart accounts (Safe contract) not available on NEAR Protocol, only EOA.
+  },
+  coinbasePreference: "eoaOnly", // Smart accounts (Safe contract) not available on NEAR Protocol, only EOA.
+  allWallets: "SHOW",
 });
 
 export const WalletSelectorContextProvider = () => {
@@ -130,7 +149,10 @@ export const WalletSelectorContextProvider = () => {
     const _selector = await setupWalletSelector({
       network: "mainnet",
       modules: [
-        setupEthereumWallets({ wagmiConfig, web3Modal }),
+        setupEthereumWallets({
+          wagmiConfig: wagmiAdapter.wagmiConfig,
+          web3Modal
+        }),
       ],
     });
     const _modal = setupModal(_selector, { contractId: "" })
@@ -140,7 +162,7 @@ export const WalletSelectorContextProvider = () => {
 
 ## Wallet Connect Configuration
 
-Project ID is required, please obtain it from [walletconnect.com](https://walletconnect.com/)
+Project ID is required, please obtain it from [cloud.reown.com](https://cloud.reown.com)
 
 ## Options
 
