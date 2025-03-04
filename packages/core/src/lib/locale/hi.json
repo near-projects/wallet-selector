@@ -1,67 +1,115 @@
 {
-   "modal": {
-     "wallet": {
-       "connectYourWallet": "अपना वॉलेट (Wallet) कनेक्ट करें।",
-       "whatIsAWallet": "वॉलेट क्या है?",
-       "secureAndManage": "सुरक्षित और प्रबंधित करें।",
-       "safelyStore": "अपनी क्रिप्टोकरेंसी और एनएफटी को सुरक्षित रूप से स्टोर और ट्रांसफर करें।",
-       "logInToAny": "NEAR पर किसी भी ऐप में साइन इन करें।",
-       "noNeedToCreate": "नए खाते या लॉगिन बनाने की आवश्यकता नहीं है। अपना वॉलेट(NEAR Wallet)कनेक्ट करें और आरंभ करें।",
-       "getAWallet": "एक वॉलेट बनाएँ।",
-       "useAWallet": "अपनी NEAR संपत्तियों को सुरक्षित और प्रबंधित करने के लिए वॉलेट का उपयोग करें और किसी भी NEAR ऐप (app) में लॉग इन करें, किसी उपयोगकर्ता (user) नाम और पासवर्ड की आवश्यकता नहीं है।",
-       "connectionFailed": "कनेक्शन विफल|",
-       "connectionSuccessful": "कनेक्शन सफल|",
-       "rememberWallet": "वॉलेटों को याद रखें",
-       "connected": "वॉलेट जुड़ गया|",
-       "connectingTo": "वॉलेट जुड़ रहा हे|",
-       "connectingMessage": {
-         "injected": "एक्सटेंशन विंडो में कनेक्शन की पुष्टि करें|",
-         "browser": "रीडायरेक्ट होने के बाद वॉलेट में कनेक्शन की पुष्टि करें|",
-         "hardware": "कोल्ड वॉलेट के साथ कनेक्शन की पुष्टि करें|"
-       }
-     },
-     "ledger": {
-       "connectWithLedger": "लेजर(Ledger)वॉलेट कनेक्ट करें|",
-       "makeSureYourLedger": "सुनिश्चित करें कि आपका लेजर सुरक्षित रूप से जुड़ा हुआ है और NEAR ऐप आपके डिवाइस (Device)पर पहले से ही खुला है|",
-       "continue": "जारी रखे|",
-       "specifyHDPath": "हार्ड डिस्क(Hard Disk)पथ(Path)निर्धारित करे|",
-       "enterYourPreferredHDPath": "अपना एचडी पथ दर्ज करें, फिर सक्रिय खातों के लिए स्कैन करें|",
-       "scan": "स्कैन करे|",
-       "retry": "दोबारा प्रयास करे|",
-       "ledgerIsNotAvailable": "लेजर उपलब्ध नहीं है|",
-       "accessDeniedToUseLedgerDevice": "लेजर डिवाइस का उपयोग करने के लिए प्रवेश निषेध|",
-       "noAccountsFound": "खाता नहीं मिला|",
-       "selectYourAccounts": "अपने खाते चुनें|",
-       "connecting1Account": "एक खाता कनेक्ट हो रहा है|",
-       "cantFindAnyAccount": "इस लेजर से जुड़ा कोई खाता नहीं मिला। कृपया एक नया NEAR खाता बनाएँ|",
-       "orConnectAnAnotherLedger": "अथवा दूसरे लेजर वॉलेट से कनेक्ट करें।",
-       "connecting": "जुड़ रहा हे|",
-       "ofAccounts": "खाता अब जुड़ा नहीं हे|",
-       "failedToAutomatically": "खाता आईडी स्वचालित रूप से खोजने में असमर्थ। मैन्युअल (Manuall) रूप से कोशिश करें|",
-       "overviewTheListOfAuthorized": "अवलोकन अधिकृत की सूची, नीचे दिए गए बटन पर क्लिक करके लॉगिन पूरा करें।",
-       "finish": "समाप्त|"
-     },
-     "install": {
-       "youllNeedToInstall": "आपको इंस्टॉल करना होगा|",
-       "toContinueAfterInstalling": "इंस्टॉल करने के बाद जारी रखे|",
-       "refreshThePage": "पुन: लोड करें।",
-       "open": "खोले|"
-     },
-     "qr": {
-       "copiedToClipboard": "क्लिपबोर्ड(Clipboard)पर कॉपी किया गया|",
-       "failedToCopy": "क्लिपबोर्ड पर कॉपी करना विफल रहा|",
-       "scanWithYourMobile": "अपने फोन (Mobile)से स्कैन करें|",
-       "copyToClipboard": " क्लिपबोर्ड पर कॉपी करें|",
-       "preferTheOfficial": "आधिकारिक संवाद को प्राथमिकता दें|",
-       "open": "खोले|"
-     },
-     "walletTypes": {
-       "hardware": "हार्डवेयर वॉलेट",
-       "browser": "ब्राउज़र वॉलेट",
-       "injected": "वॉलेट एक्सटेंशन",
-       "bridge": "ब्रिज वॉलेट",
-       "mobile": "मोबाइल वॉलेट",
-       "instant-link": "इंस्टेंट वॉलेट"
-     }
-   }
- }
+  "modal": {
+    "wallet": {
+      "connectYourWallet": "अपना वॉलेट (Wallet) कनेक्ट करें।",
+      "whatIsAWallet": "वॉलेट क्या है?",
+      "secureAndManage": "सुरक्षित और प्रबंधित करें।",
+      "safelyStore": "अपनी क्रिप्टोकरेंसी और एनएफटी को सुरक्षित रूप से स्टोर और ट्रांसफर करें।",
+      "logInToAny": "NEAR पर किसी भी ऐप में साइन इन करें।",
+      "noNeedToCreate": "नए खाते या लॉगिन बनाने की आवश्यकता नहीं है। अपना वॉलेट(NEAR Wallet)कनेक्ट करें और आरंभ करें।",
+      "getAWallet": "एक वॉलेट बनाएँ।",
+      "useAWallet": "अपनी NEAR संपत्तियों को सुरक्षित और प्रबंधित करने के लिए वॉलेट का उपयोग करें और किसी भी NEAR ऐप (app) में लॉग इन करें, किसी उपयोगकर्ता (user) नाम और पासवर्ड की आवश्यकता नहीं है।",
+      "connectionFailed": "कनेक्शन विफल|",
+      "connectionSuccessful": "कनेक्शन सफल|",
+      "rememberWallet": "वॉलेटों को याद रखें",
+      "connected": "वॉलेट जुड़ गया|",
+      "connectingTo": "वॉलेट जुड़ रहा हे|",
+      "connectingMessage": {
+        "injected": "एक्सटेंशन विंडो में कनेक्शन की पुष्टि करें|",
+        "browser": "रीडायरेक्ट होने के बाद वॉलेट में कनेक्शन की पुष्टि करें|",
+        "hardware": "कोल्ड वॉलेट के साथ कनेक्शन की पुष्टि करें|",
+        "bridge": "वॉलेट में कनेक्शन की पुष्टि करें"
+      }
+    },
+    "ledger": {
+      "connectWithLedger": "लेजर(Ledger)वॉलेट कनेक्ट करें|",
+      "makeSureYourLedger": "सुनिश्चित करें कि आपका लेजर सुरक्षित रूप से जुड़ा हुआ है और NEAR ऐप आपके डिवाइस (Device)पर पहले से ही खुला है|",
+      "continue": "जारी रखे|",
+      "specifyHDPath": "हार्ड डिस्क(Hard Disk)पथ(Path)निर्धारित करे|",
+      "enterYourPreferredHDPath": "अपना एचडी पथ दर्ज करें, फिर सक्रिय खातों के लिए स्कैन करें|",
+      "scan": "स्कैन करे|",
+      "retry": "दोबारा प्रयास करे|",
+      "ledgerIsNotAvailable": "लेजर उपलब्ध नहीं है|",
+      "accessDeniedToUseLedgerDevice": "लेजर डिवाइस का उपयोग करने के लिए प्रवेश निषेध|",
+      "noAccountsFound": "खाता नहीं मिला|",
+      "selectYourAccounts": "अपने खाते चुनें|",
+      "connecting1Account": "एक खाता कनेक्ट हो रहा है|",
+      "cantFindAnyAccount": "इस लेजर से जुड़ा कोई खाता नहीं मिला। कृपया एक नया NEAR खाता बनाएँ|",
+      "orConnectAnAnotherLedger": "अथवा दूसरे लेजर वॉलेट से कनेक्ट करें।",
+      "connecting": "जुड़ रहा हे|",
+      "ofAccounts": "खाता अब जुड़ा नहीं हे|",
+      "failedToAutomatically": "खाता आईडी स्वचालित रूप से खोजने में असमर्थ। मैन्युअल (Manuall) रूप से कोशिश करें|",
+      "overviewTheListOfAuthorized": "अवलोकन अधिकृत की सूची, नीचे दिए गए बटन पर क्लिक करके लॉगिन पूरा करें।",
+      "finish": "समाप्त|"
+    },
+    "install": {
+      "youllNeedToInstall": "आपको इंस्टॉल करना होगा|",
+      "toContinueAfterInstalling": "इंस्टॉल करने के बाद जारी रखे|",
+      "refreshThePage": "पुन: लोड करें।",
+      "open": "खोले|"
+    },
+    "qr": {
+      "copiedToClipboard": "क्लिपबोर्ड(Clipboard)पर कॉपी किया गया|",
+      "failedToCopy": "क्लिपबोर्ड पर कॉपी करना विफल रहा|",
+      "scanWithYourMobile": "अपने फोन (Mobile)से स्कैन करें|",
+      "copyToClipboard": " क्लिपबोर्ड पर कॉपी करें|",
+      "preferTheOfficial": "आधिकारिक संवाद को प्राथमिकता दें|",
+      "open": "खोले|"
+    },
+    "walletTypes": {
+      "hardware": "हार्डवेयर वॉलेट",
+      "browser": "ब्राउज़र वॉलेट",
+      "injected": "वॉलेट एक्सटेंशन",
+      "bridge": "ब्रिज वॉलेट",
+      "mobile": "मोबाइल वॉलेट",
+      "instant-link": "इंस्टेंट वॉलेट"
+    },
+    "exportAccounts": {
+      "afterDecide": "जब आप एक वॉलेट चुन लेंगे, तब आप चुन सकते हैं कि आप कौन से खाते स्थानांतरित करना चाहते हैं।",
+      "chooseAWallet": "एक वॉलेट चुनें",
+      "complete": {
+        "button": "पूर्ण करें",
+        "descOne": "अब आपको स्थानांतरित करने के लिए आपने जो वॉलेट चुना है, उस पर रीडायरेक्ट किया जाएगा।",
+        "descTwo": "चुने हुए वॉलेट से आयात प्रक्रिया पूरी होने के बाद, स्थानांतरण प्रक्रिया को पूरा करने के लिए बटन दबाएं।",
+        "startOverButton": "फिर से शुरू करें",
+        "title": "स्थानांतरण पूरा करें"
+      },
+      "disclaimer": "आप उन खातों को स्थानांतरित नहीं कर सकेंगे जो कभी भी NEAR पर फंडेड या उपयोग किए गए नहीं हैं।",
+      "getPassphrase": {
+        "button": "जारी रखें",
+        "checkLabel": "मैंने पासवर्ड को कॉपी या नोट किया है",
+        "desc": "जब आप अपने खातों को एक अलग वॉलेट में निर्यात करना शुरू करेंगे, तो आपको इस पासवर्ड को दर्ज करने की आवश्यकता होगी।",
+        "label": "कॉपी करने के लिए क्लिक करें",
+        "title": "अस्थायी पासवर्ड कॉपी करें",
+        "transferButton": "खातों का स्थानांतरण करें"
+      },
+      "selectAWallet": "एक वॉलेट चुनें जो आपकी आवश्यकताओं को पूरा करता है और आपके जुड़े खातों का समर्थन करता है।",
+      "selectAccounts": {
+        "button": "जारी रखें",
+        "deselectAll": "सभी अचयनित करें",
+        "error": "खाता अस्तित्व में नहीं है",
+        "noBalance": "खाता निधि नहीं है",
+        "selectAll": "सभी चुनें",
+        "title": "स्थानांतरण के लिए खातों का चयन करें",
+        "unavailable": "स्थानांतरण अस्वीकृत",
+        "warningLedger": "लेजर समर्थन की आवश्यकता है"
+      },
+      "selectYourAccounts": "अपने खाते चुनें",
+      "transferYourAccounts": "अपने खातों का स्थानांतरण करें",
+      "walletTypes": {
+        "bridge": "ब्रिज वॉलेट",
+        "browser": "ब्राउज़र वॉलेट",
+        "hardware": "हार्डवेयर वॉलेट",
+        "injected": "वॉलेट एक्सटेंशन",
+        "mobile": "मोबाइल वॉलेट"
+      },
+      "warning": "वर्तमान में खाते निर्यात का समर्थन नहीं करता है। कृपया एक अन्य वॉलेट चुनें।"
+    }
+  },
+  "component": {
+    "clickToCopy": {
+      "label": "कॉपी हो गया",
+      "tooltip": "कॉपी करने के लिए क्लिक करें"
+    }
+  }
+}

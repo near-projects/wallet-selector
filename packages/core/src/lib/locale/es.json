@@ -63,6 +63,53 @@
       "bridge": "Cartera de Puente",
       "mobile": "Cartera Móvil",
       "instant-link": "Cartera Instantánea"
+    },
+    "exportAccounts": {
+      "afterDecide": "Después de decidirte por una billetera, puedes seleccionar qué cuentas deseas transferir.",
+      "chooseAWallet": "Elige una Billetera",
+      "complete": {
+        "button": "Completar",
+        "descOne": "Ahora serás redirigido a la billetera que seleccionaste para completar la transferencia.",
+        "descTwo": "Una vez que se haya completado la parte de importación del proceso desde la billetera seleccionada, presiona el botón para finalizar el proceso de transferencia.",
+        "startOverButton": "Empezar de Nuevo",
+        "title": "Completar la Transferencia"
+      },
+      "disclaimer": "No podrás transferir cuentas que nunca hayan sido financiadas o utilizadas en NEAR.",
+      "getPassphrase": {
+        "button": "Continuar",
+        "checkLabel": "Copie o anote la contraseña",
+        "desc": "Necesitarás ingresar esta contraseña cuando comiences a exportar tus cuentas a otra billetera.",
+        "label": "Haga clic para Copiar",
+        "title": "Copiar Contraseña Temporal",
+        "transferButton": "Transferir Cuentas"
+      },
+      "selectAWallet": "Selecciona una billetera que se ajuste a tus necesidades y que soporte tus cuentas conectadas.",
+      "selectAccounts": {
+        "button": "Continuar",
+        "deselectAll": "Deseleccionar Todo",
+        "error": "La cuenta no existe",
+        "noBalance": "Cuenta no financiada",
+        "selectAll": "Seleccionar Todo",
+        "title": "Seleccionar Cuentas para Transferir",
+        "unavailable": "Transferencia No Disponible",
+        "warningLedger": "Se requiere soporte de Ledger"
+      },
+      "selectYourAccounts": "Selecciona Tus Cuentas",
+      "transferYourAccounts": "Transfiere Tus Cuentas",
+      "walletTypes": {
+        "bridge": "Billetera Bridge",
+        "browser": "Billetera de Navegador",
+        "hardware": "Billetera de Hardware",
+        "injected": "Extensión de Billetera",
+        "mobile": "Billetera Móvil"
+      },
+      "warning": "no admite la exportación de cuentas en este momento. Por favor selecciona otra billetera."
+    }
+  },
+  "component": {
+    "clickToCopy": {
+      "label": "Copiado",
+      "tooltip": "Haga clic para copiar"
     }
   }
 }
