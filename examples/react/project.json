@@ -74,7 +74,7 @@
           },
           {
             "glob": "**/*",
-            "input": "packages/here-wallet/assets/",
+            "input": "packages/hot-wallet/assets/",
             "output": "assets/"
           },
           {
@@ -111,6 +111,11 @@
             "glob": "**/*",
             "input": "packages/ethereum-wallets/assets/",
             "output": "assets/"
+          },
+          {
+            "glob": "**/*",
+            "input": "packages/react-hook/",
+            "output": "/"
           }
         ]
       },

@@ -55,7 +55,6 @@ export interface EthereumWalletsParams {
     subscribeEvents: (
       f: (event: { data: { event: string } }) => void
     ) => () => void;
-    getState: () => { open: boolean; selectedNetworkId?: number };
   };
   wagmiCore?: WagmiCoreActionsType;
   chainId?: number;

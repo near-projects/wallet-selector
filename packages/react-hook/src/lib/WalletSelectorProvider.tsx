@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useCallback, useRef } from "react";
 import type {
+  AccountState,
   FinalExecutionOutcome,
   SignedMessage,
   Transaction,
@@ -7,7 +8,10 @@ import type {
   WalletSelector,
   WalletSelectorParams,
 } from "@near-wallet-selector/core";
-import { setupWalletSelector } from "@near-wallet-selector/core";
+import {
+  setupWalletSelector,
+  verifySignature,
+} from "@near-wallet-selector/core";
 import { setupModal } from "@near-wallet-selector/modal-ui";
 import { providers } from "near-api-js";
 import type { QueryResponseKind } from "near-api-js/lib/providers/provider";
@@ -21,6 +25,14 @@ class WalletError extends Error {
 
 export interface QueryResponseKindWithAmount extends QueryResponseKind {
   amount: string;
+}
+
+export interface AccountView extends QueryResponseKind {
+  amount: string;
+  locked: string;
+  code_hash: string;
+  storage_usage: number;
+  storage_paid_at: number;
 }
 
 export interface ViewMethodParams {
@@ -38,6 +50,7 @@ export interface SignMessageParams {
   message: string;
   recipient: string;
   nonce: Buffer;
+  callbackUrl?: string;
 }
 
 export type SetupParams = WalletSelectorParams & {
@@ -48,6 +61,7 @@ export interface WalletSelectorProviderValue {
   walletSelector: Promise<WalletSelector> | null;
   signedAccountId: string | null;
   wallet: Wallet | null;
+  accounts: Array<AccountState> | undefined;
   signIn: () => void;
   signOut: () => Promise<void>;
   viewFunction: (params: ViewMethodParams) => Promise<unknown>;
@@ -58,6 +72,11 @@ export interface WalletSelectorProviderValue {
     transactions: Array<Transaction>;
   }) => Promise<void | Array<FinalExecutionOutcome>>;
   signMessage: (params: SignMessageParams) => Promise<void | SignedMessage>;
+  getAccount: (accountId: string) => Promise<QueryResponseKindWithAmount>;
+  verifyMessage: (
+    message: SignMessageParams,
+    signedMessage: SignedMessage
+  ) => Promise<boolean>;
 }
 
 const DEFAULT_GAS = "30000000000000";
@@ -77,11 +96,17 @@ export function WalletSelectorProvider({
   const walletSelectorRef = useRef<Promise<WalletSelector> | null>(null);
   const [signedAccountId, setSignedAccountId] = useState<string | null>(null);
   const [wallet, setWallet] = useState<Wallet | null>(null);
+  const [accounts, setAccounts] = useState<Array<AccountState>>();
+
+  const networkURL =
+    typeof config.network === "string"
+      ? `https://rpc.${config.network}.near.org`
+      : config.network.nodeUrl;
 
   const rpcProviderUrls =
     config.fallbackRpcUrls && config.fallbackRpcUrls.length > 0
       ? config.fallbackRpcUrls
-      : [`https://rpc.${config.network}.near.org`];
+      : [networkURL];
 
   const provider = new providers.FailoverRpcProvider(
     rpcProviderUrls.map((url) => new providers.JsonRpcProvider({ url }))
@@ -96,7 +121,7 @@ export function WalletSelectorProvider({
         const signedAccount = state?.accounts.find(
           (account) => account.active
         )?.accountId;
-
+        setAccounts(state.accounts);
         setSignedAccountId(signedAccount || null);
 
         if (signedAccount) {
@@ -200,18 +225,20 @@ export function WalletSelectorProvider({
     [wallet]
   );
 
+  const getAccount = async (accountId: string): Promise<AccountView> => {
+    return await provider.query({
+      request_type: "view_account",
+      account_id: accountId,
+      finality: "final",
+    });
+  };
   /**
    * Gets the balance of an account in yoctoNEAR
    * @param {string} accountId - the account id to get the balance of
    * @returns {Promise<number>} - the balance of the account
    */
   const getBalance = async (accountId: string): Promise<bigint> => {
-    const account = (await provider.query({
-      request_type: "view_account",
-      account_id: accountId,
-      finality: "final",
-    })) as QueryResponseKindWithAmount;
-
+    const account = await getAccount(accountId);
     return account.amount ? BigInt(account.amount) : BigInt(0);
   };
 
@@ -276,10 +303,58 @@ export function WalletSelectorProvider({
     [wallet]
   );
 
+  const fetchAllUserKeys = async () => {
+    const keys = await fetch(networkURL, {
+      method: "post",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body: `{"jsonrpc":"2.0", "method":"query", "params":["access_key/${signedAccountId}", ""], "id":1}`,
+    })
+      .then((data) => data.json())
+      .then((result) => result);
+    return keys;
+  };
+
+  const verifyMessage = async (
+    message: SignMessageParams,
+    signedMessage: SignedMessage
+  ) => {
+    const verifiedSignature = verifySignature({
+      message: message.message,
+      nonce: message.nonce,
+      recipient: message.recipient,
+      publicKey: signedMessage.publicKey,
+      signature: signedMessage.signature,
+      callbackUrl: message.callbackUrl,
+    });
+
+    if (!verifiedSignature) {
+      return false;
+    }
+    // Call the public RPC asking for all the users' keys
+    const data = await fetchAllUserKeys();
+
+    // if there are no keys, then the user could not sign it!
+    if (!data || !data.result || !data.result.keys) {
+      return false;
+    }
+
+    // check all the keys to see if we find the used_key there
+    for (const k in data.result.keys) {
+      if (data.result.keys[k].public_key === signedMessage.publicKey) {
+        // Ensure the key is full access, meaning the user had to sign
+        // the transaction through the wallet
+        return data.result.keys[k].access_key.permission === "FullAccess";
+      }
+    }
+
+    return false; // didn't find it;
+  };
+
   const contextValue: WalletSelectorProviderValue = {
     walletSelector: walletSelectorRef.current,
     signedAccountId,
     wallet,
+    accounts,
     signIn,
     signOut,
     viewFunction,
@@ -288,6 +363,8 @@ export function WalletSelectorProvider({
     getAccessKeys,
     signAndSendTransactions,
     signMessage,
+    getAccount,
+    verifyMessage,
   };
 
   return (
